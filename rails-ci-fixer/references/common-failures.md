@@ -2,25 +2,27 @@
 
 ## Factory / Validation Errors
 
-### `RecordInvalid: Validation failed: Role can't be blank`
-New validation added to a join table without updating factories/seeds.
+### `RecordInvalid: Validation failed: <field> can't be blank`
+New validation added without updating factories or seeds.
 - **Fix**: Add default value to migration column OR explicitly set the field in factories and seeds
 - **Check**: `spec/factories/`, `db/seeds.rb`, `db/migrate/`
 
-### `User must be a driver to create a driver profile`
-Missing role trait in factory setup.
-- **Fix**: Use `create(:user, :driver)` not `create(:user)`
+### Missing role trait on user factory
+```
+User must be a <role> to perform this action
+```
+- **Fix**: Pass the correct role trait when creating users in specs, e.g. `create(:user, :admin)`
 
-### `BusinessProfile wrong association key`
-- **Fix**: Use `owner:` not `user:` when creating BusinessProfile
+### Wrong association key on nested model
+- **Fix**: Check the model's `belongs_to` — use the exact key the factory expects
 
-### `Vehicle missing primary_driver`
-- **Fix**: Always set `primary_driver:` when creating vehicles for drivers
+### Model missing required association
+- **Fix**: Always set required associations explicitly when building records in tests
 
 ## Asset Pipeline
 
-### `The asset "tailwind.css" is not present in the asset pipeline`
-Tailwind not compiled in test environment.
+### `The asset "<name>.css" is not present in the asset pipeline`
+CSS not compiled in the test environment.
 - **Fix**: `rails assets:precompile RAILS_ENV=test`
 
 ## Migration Errors
@@ -34,7 +36,7 @@ Tailwind not compiled in test environment.
 - **Cause**: Missing browser driver (geckodriver for Firefox, chromedriver for Chrome)
 - **Fix**: Install the appropriate driver and ensure it's in PATH
 
-### WebMock blocking localhost
+### WebMock blocking localhost connections
 - **Fix**: Add to `rails_helper.rb`:
   ```ruby
   WebMock.disable_net_connect!(allow_localhost: true)
@@ -44,7 +46,7 @@ Tailwind not compiled in test environment.
 
 ### `ActiveRecord::MissingRequiredOrderError` on `.last` or `.first`
 Join tables with `id: false` can't use `.last`/`.first`.
-- **Fix**: Use scoped query instead: `Model.find_by(field: value)`
+- **Fix**: Use a scoped query instead: `Model.find_by(field: value)`
 
 ## Seed Data
 
@@ -54,16 +56,16 @@ When new required columns are added, seed data creation breaks.
 
 ## Debug Approach
 
-For sub-agent debugging (non-interactive):
+For sub-agent / non-interactive debugging:
 ```ruby
-pp object                    # inspect any object
-raise object.inspect         # force output and halt
-puts object.class            # check type
-puts object.errors.full_messages.inspect  # AR errors
+pp object                                    # inspect any object
+raise object.inspect                         # force output and halt
+puts object.errors.full_messages.inspect     # ActiveRecord errors
+puts object.class                            # check type
 ```
 
-For local debugging (interactive):
+For local interactive debugging (if pry is available):
 ```ruby
-binding.pry                  # drop into pry session
+binding.pry
 ```
-Never commit `binding.pry` or debug logging — remove before pushing.
+**Never commit debug statements** — remove before pushing.
