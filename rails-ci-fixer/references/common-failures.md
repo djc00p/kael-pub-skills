@@ -54,6 +54,44 @@ Join tables with `id: false` can't use `.last`/`.first`.
 When new required columns are added, seed data creation breaks.
 - **Fix**: Update `db/seeds.rb` to include the new required fields explicitly
 
+## CI Build / Environment Failures
+
+### Missing Node, Yarn, or npm
+```
+yarn: command not found
+npm: not found
+node: command not found
+```
+- **Fix**: Add install step to `.github/workflows/ci.yml`:
+  ```yaml
+  - name: Setup Node
+    uses: actions/setup-node@v4
+    with:
+      node-version: '20'
+  - name: Install JS dependencies
+    run: yarn install --frozen-lockfile
+  ```
+
+### Tailwind CSS not compiling in CI
+- **Fix**: Ensure `yarn build:css` or equivalent runs before tests in CI workflow
+- Check that `package.json` has the build script defined
+
+### Asset precompilation failing
+```
+ExecJS::RuntimeUnavailable or asset pipeline errors
+```
+- **Fix**: Add Node setup before asset precompile step in CI
+
+### Missing system dependency (ImageMagick, libvips, etc.)
+- **Fix**: Add to CI workflow:
+  ```yaml
+  - name: Install system dependencies
+    run: sudo apt-get install -y libvips-dev
+  ```
+
+### CI workflow file location
+`.github/workflows/ci.yml` — check and update this file when build steps fail, not just app code.
+
 ## Debug Approach
 
 For sub-agent / non-interactive debugging:

@@ -17,9 +17,13 @@ Requires:
 ## Fix Loop
 
 ### Attempt 1 & 2 — Fast fix with a lightweight model
-1. Pull failure logs:
+1. Pull failure logs — cast a wide net to catch both build and test failures:
    ```bash
-   gh run view <run_id> --repo <owner/repo> --log-failed 2>&1 | grep -E "Failure|Error:|rspec \./|RecordInvalid|[0-9]+ example" | head -40
+   gh run view <run_id> --repo <owner/repo> --log-failed 2>&1 | grep -E "Failure|Error:|error:|rspec \./|RecordInvalid|[0-9]+ example|not found|No such file|command not found|exit code [^0]|FAILED|failed to" | grep -v "docker\|postgres\|network" | head -60
+   ```
+   Also check the full log for setup step failures (yarn, npm, node, asset compilation):
+   ```bash
+   gh run view <run_id> --repo <owner/repo> --log 2>&1 | grep -E "yarn|npm|node|tailwind|assets|webpack|vite" | grep -i "error\|fail\|not found" | head -20
    ```
 2. Use a fast/cheap coding agent to attempt the fix (e.g. Claude Haiku, GPT-4o-mini, Gemini Flash)
 3. Verify locally:
