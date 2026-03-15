@@ -1,6 +1,6 @@
 ---
 name: rails-ci-fixer
-description: Autonomously fix failing CI on Rails PRs using a tiered escalation loop. Use when a Rails pull request has failing CI — RSpec failures, RuboCop offenses, migration errors, factory issues, or seed data problems. Handles the full cycle: pull logs, attempt fix, escalate if needed, notify human when green or stuck. Never merges — human always merges. Triggers on phrases like "fix CI", "CI is failing", "watch the PR", "fix the tests", or when a PR has a failing CI run.
+description: Autonomously fix failing CI on Rails PRs using a tiered escalation loop. Works with any AI coding agent (built and tested with Claude). Use when a Rails pull request has failing CI — RSpec failures, RuboCop offenses, migration errors, factory issues, or seed data problems. Handles the full cycle: pull logs, attempt fix with a fast/cheap model, escalate to a stronger model if needed, notify human when green or stuck. Never merges — human always merges. Triggers on phrases like "fix CI", "CI is failing", "watch the PR", "fix the tests", or when a PR has a failing CI run.
 ---
 
 # Rails CI Fixer
@@ -21,10 +21,7 @@ Requires:
    ```bash
    gh run view <run_id> --repo <owner/repo> --log-failed 2>&1 | grep -E "Failure|Error:|rspec \./|RecordInvalid|[0-9]+ example" | head -40
    ```
-2. Fix with Claude Code on Haiku (cheapest, fastest):
-   ```bash
-   claude --model claude-haiku-4-5-20251001 --permission-mode bypassPermissions --print 'Fix these CI failures: <paste failures>'
-   ```
+2. Use a fast/cheap coding agent to attempt the fix (e.g. Claude Haiku, GPT-4o-mini, Gemini Flash)
 3. Verify locally:
    ```bash
    bundle exec rspec spec/path/to/failing_spec.rb
@@ -38,7 +35,7 @@ Requires:
 ### Attempt 3 — Debug sub-agent + stronger model
 1. Spawn a debug sub-agent that adds `pp`/`raise inspect` at the failure point
 2. Sub-agent runs the spec and reports back the state at failure
-3. Fix with Claude Code on a stronger model (Sonnet/Opus) armed with debug findings
+3. Escalate to a stronger model (e.g. Claude Sonnet/Opus, GPT-4o, Gemini Pro) armed with debug findings
 4. Verify, RuboCop, commit, push
 
 ### Attempt 4 — Stop and notify human
