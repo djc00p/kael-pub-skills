@@ -7,12 +7,23 @@ description: Autonomously fix failing CI on Rails PRs using a tiered escalation 
 
 Autonomously fix failing Rails CI using a tiered escalation loop.
 
-## Setup
+## Requirements
 
-Requires:
-- `gh` CLI authenticated (`gh auth login`)
-- `bundle exec rspec` working locally
-- `bundle exec rubocop` installed
+**Binaries needed:**
+- `gh` — GitHub CLI, authenticated with `repo` scope (`gh auth login` or `GH_TOKEN` env var)
+- `git` — for committing and pushing fixes
+- `bundle` — Bundler for running specs and RuboCop
+- `rspec` — via `bundle exec rspec`
+- `rubocop` — via `bundle exec rubocop`
+
+**Credentials:**
+- `GH_TOKEN` — GitHub personal access token with `repo` scope (read + push to feature branches)
+- Grant **least privilege**: repo-scoped token only, not org-wide
+
+**Push policy:**
+- Fixes are pushed to the **existing feature branch only** — never to `main` or protected branches
+- Never force-pushes
+- Never merges — human always reviews and merges via PR
 
 ## Fix Loop
 
@@ -21,7 +32,7 @@ Requires:
    ```bash
    gh run view <run_id> --repo <owner/repo> --log-failed 2>&1 | grep -E "Failure|Error:|error:|rspec \./|RecordInvalid|[0-9]+ example|not found|No such file|command not found|exit code [^0]|FAILED|failed to" | grep -v "docker\|postgres\|network" | head -60
    ```
-   Also check the full log for setup step failures (yarn, npm, node, asset compilation):
+   Also check for setup step failures (yarn, npm, node, asset compilation):
    ```bash
    gh run view <run_id> --repo <owner/repo> --log 2>&1 | grep -E "yarn|npm|node|tailwind|assets|webpack|vite" | grep -i "error\|fail\|not found" | head -20
    ```
@@ -34,13 +45,13 @@ Requires:
    ```bash
    bundle exec rubocop -A app/ spec/
    ```
-5. Commit and push → watch CI
+5. Commit and push to feature branch → watch CI
 
 ### Attempt 3 — Debug sub-agent + stronger model
 1. Spawn a debug sub-agent that adds `pp`/`raise inspect` at the failure point
-2. Sub-agent runs the spec and reports back the state at failure
-3. Escalate to a stronger model (e.g. Claude Sonnet/Opus, GPT-4o, Gemini Pro) armed with debug findings
-4. Verify, RuboCop, commit, push
+2. Sub-agent runs the spec locally and reports back the state at failure
+3. Escalate to a stronger model (e.g. Claude Sonnet/Opus, GPT-4o, Gemini Pro) with debug findings
+4. Verify, RuboCop, commit, push to feature branch
 
 ### Attempt 4 — Stop and notify human
 - Message human with: what failed, what was tried, debug output
@@ -49,6 +60,7 @@ Requires:
 ## Hard Rules
 
 - **NEVER comment out existing tests** — fix the root cause always
+- **NEVER push to main or protected branches** — feature branch only
 - **NEVER merge** — human always reviews and merges
 - **Notify on green**: use your platform's notification mechanism
 
