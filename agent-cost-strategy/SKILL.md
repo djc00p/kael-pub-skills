@@ -39,16 +39,30 @@ A tiered model selection framework for multi-agent workflows. Use the cheapest m
 When delegating to a sub-agent, default to the cheapest model that fits the task:
 
 ```
-Task type          → Model tier
-───────────────────────────────
-Fix failing tests  → Fast/Cheap
-Write boilerplate  → Fast/Cheap
-Research/search    → Fast/Cheap
-Build new feature  → Mid-tier
-Review PR          → Mid-tier
-Architecture       → Powerful
-Stuck after 2 tries→ Escalate up one tier
+Task type               → Model tier
+─────────────────────────────────────
+Fix failing tests       → Fast/Cheap
+Write boilerplate       → Fast/Cheap
+Research/search         → Fast/Cheap
+Cron/scheduled tasks    → Fast/Cheap (always)
+Short replies (hi/ok)   → Fast/Cheap (always)
+Build new feature       → Mid-tier
+Review PR               → Mid-tier
+Architecture            → Powerful
+Stuck after 2 tries     → Escalate up one tier
 ```
+
+## Heartbeat Interval
+
+Set heartbeat to **55 minutes** (not 30) when using Anthropic API keys. This keeps the prompt cache warm just under the 1-hour TTL — every heartbeat pays cheap cache-read rates instead of re-writing the full cache.
+
+```json
+"heartbeat": { "every": "55m" }
+```
+
+## Communication Pattern Rule
+
+Short conversational messages (hi, thanks, ok, sure, got it, yes, no) should always use Fast/Cheap models. Never burn Sonnet or Powerful on one-word acknowledgments.
 
 ## Cache Optimization
 
@@ -60,3 +74,4 @@ Monitor spend by checking your provider's usage dashboard regularly. Signs you'r
 - Running Powerful models on tasks Fast/Cheap can handle
 - No caching on repeated system prompts
 - Spawning sub-agents without a model tier strategy
+- Heartbeat set to 30min (re-writes cache every time)
