@@ -1,7 +1,7 @@
 ---
 name: github-pr-writer
 description: Write clear, structured GitHub pull request descriptions using a standardized template. Use when creating a PR, updating a PR description, or when asked to document what a branch changes. Automatically fills in summary, type of change, description of changes, impact, and testing notes based on the diff or context provided. Triggers on phrases like "create a PR", "write the PR description", "open a pull request", "update the PR body", "document this PR", or when a branch is ready to merge.
-metadata: {"requires":{"bins":["gh","git"]}}
+metadata: {"clawdbot":{"emoji":"📝","requires":{"bins":["gh","git"]},"os":["linux","darwin","win32"]}}
 ---
 
 # GitHub PR Writer

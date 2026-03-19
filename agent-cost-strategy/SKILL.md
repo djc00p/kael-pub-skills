@@ -1,7 +1,7 @@
 ---
 name: agent-cost-strategy
 description: Tiered model selection and cost optimization for multi-agent AI workflows. Use this skill whenever you are choosing a model for a task, spinning up a sub-agent, setting up cron jobs or heartbeats, or trying to reduce API spend. Also use when the user says "save costs", "which model should I use", "optimize model usage", "this is getting expensive", or when delegating any task to a sub-agent. Works with any AI provider.
-metadata: {"requires":{"bins":[]}}
+metadata: {"clawdbot":{"emoji":"💰","requires":{"bins":[]},"os":["linux","darwin","win32"]}}
 ---
 
 # Agent Cost Strategy

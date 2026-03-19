@@ -1,7 +1,7 @@
 ---
 name: rails-ci-fixer
 description: Autonomously fix failing CI on Rails PRs using a tiered escalation loop. Use this skill whenever a Rails pull request has failing CI — RSpec failures, RuboCop offenses, migration errors, factory issues, seed data problems, or build environment failures (yarn, npm, Tailwind, missing system deps). Handles the full cycle without human intervention: pull logs, fix with a fast model, escalate to a stronger model if needed, notify human when green or stuck. Never merges — human always merges. Trigger phrases: "fix CI", "CI is failing", "CI is red", "watch the PR", "fix the tests", "the build is broken".
-metadata: {"requires":{"bins":["gh","git","bundle","rubocop"],"env":["GH_TOKEN"]}}
+metadata: {"clawdbot":{"emoji":"🔧","requires":{"bins":["gh","git","bundle","rubocop"],"env":["GH_TOKEN"]},"os":["linux","darwin"]}}
 ---
 
 # Rails CI Fixer

@@ -1,5 +1,6 @@
 ---
 name: twitch-clip
+metadata: {"clawdbot":{"emoji":"🎬","requires":{"bins":["curl"],"env":["TWITCH_CLIENT_ID","TWITCH_ACCESS_TOKEN","TWITCH_BROADCASTER_ID"]},"os":["linux","darwin"]}}
 description: Create Twitch clips of the current live stream via the Twitch API. Use when a streamer says "clip that", "clip the last X seconds", "make a clip", "clip it", or any variation requesting a clip of the current broadcast. Requires Twitch API credentials configured in environment variables. Has a 30-second cooldown between clips to prevent spam.
 ---
 

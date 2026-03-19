@@ -1,7 +1,7 @@
 ---
 name: rails-tdd-standards
 description: RSpec testing standards and best practices for Rails applications. Use when writing new tests, reviewing test quality, debugging factory errors, setting up FactoryBot, or enforcing single-expectation patterns. Also use when a test fails due to factory misconfiguration, wrong association keys, or missing role traits. Triggers on phrases like "write a test", "add specs", "factory error", "test is failing", "how should I test this", or when reviewing test code in a Rails project.
-metadata: {"requires":{"bins":["bundle"]}}
+metadata: {"clawdbot":{"emoji":"🧪","requires":{"bins":["bundle"]},"os":["linux","darwin","win32"]}}
 ---
 
 # Rails TDD Standards
