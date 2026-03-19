@@ -1,5 +1,15 @@
 # Security Guide
 
+## Operational Risk Acknowledgment
+
+This skill runs `bundle exec rspec`, `rubocop`, and potentially `bundle install` on local repository code. Running test suites executes arbitrary Ruby code and can load arbitrary gems — this is an inherent risk of any CI automation tool that runs locally. **Only use this skill on repositories you own and trust.**
+
+**Mitigations:**
+- Never run on third-party or untrusted repos
+- Run in a dedicated user account or VM if operating on unfamiliar codebases
+- Review the diff before pushing — the skill commits to a feature branch, not main, giving you a review opportunity
+- Revoke GH_TOKEN immediately after use if operating in a shared environment
+
 ## Why Automated Scanners Flag This Skill
 
 This skill runs shell commands (`gh`, `git`, `bundle exec rspec`) and pushes code to GitHub. Automated security scanners classify this as suspicious because of those capabilities — not because it's malicious. Any CI automation tool with push access will receive the same classification.
