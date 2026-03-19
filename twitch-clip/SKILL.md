@@ -1,11 +1,11 @@
 ---
 name: twitch-clip
-description: Create Twitch clips of the current live stream via the Twitch API. Use when a streamer says "clip that", "clip the last X seconds", "make a clip", or any variation requesting a clip of the current broadcast. Requires Twitch API credentials configured in environment variables.
+description: Create Twitch clips of the current live stream via the Twitch API. Use when a streamer says "clip that", "clip the last X seconds", "make a clip", "clip it", or any variation requesting a clip of the current broadcast. Requires Twitch API credentials configured in environment variables. Has a 30-second cooldown between clips to prevent spam.
 ---
 
 # Twitch Clip Skill
 
-Creates a clip of the last 30–60 seconds of a live Twitch stream via the Twitch Clips API.
+Creates a clip of the last 30–60 seconds of a live Twitch stream via the Twitch Clips API. Includes a 30-second cooldown to prevent accidental spam clipping.
 
 ## Setup
 
@@ -44,6 +44,13 @@ bash scripts/create_clip.sh [duration_seconds]
 - Duration defaults to 30, max 60
 - Stream must be live or the API returns a 404
 
+## Cooldown
+
+A 30-second cooldown is enforced between clips. If a clip request comes in during cooldown:
+- Script exits with code 2 and prints remaining wait time
+- Reply: `⏳ Cooldown active — try again in Xs`
+- Do NOT retry automatically — wait for the next explicit clip request
+
 ## Trigger phrases
 - "clip that"
 - "clip the last X seconds"
@@ -51,8 +58,15 @@ bash scripts/create_clip.sh [duration_seconds]
 - "clip it"
 
 ## Response format
-After clipping, reply with:
+
+**Success:**
 `Clipped! 🎬 https://clips.twitch.tv/<clip_id>`
+
+**Cooldown active:**
+`⏳ Cooldown active — try again in Xs`
+
+**Not live:**
+`Stream is offline — can't clip right now`
 
 ## Token refresh
 Tokens expire. If you get a 401 error, re-authorize using the URL in Setup step 2.
