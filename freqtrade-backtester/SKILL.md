@@ -14,17 +14,19 @@ Backtesting runs your strategy against historical market data to see how it woul
 
 ## Download Data
 
-Historical data is cached, so download once and reuse it for many backtests. This saves time and bandwidth.
+Historical data is cached, so download once and reuse it for many backtests.
+
+⚠️ **Download one pair at a time** — passing multiple pairs to `--pairs` can cause errors. Run the command separately for each pair:
 
 ```bash
 docker-compose run --rm freqtrade download-data \
   --exchange kraken \
-  --pairs BTC/USDT ETH/USDT \
+  --pairs BTC/USDT \
   --timeframe 5m \
   --timerange 20240101-
 ```
 
-Replace pair names and timeframe (1m, 5m, 1h, etc.) as needed. The `--timerange` format is `YYYYMMDD-YYYYMMDD`; omit the end date to download through today.
+Replace the pair, timeframe, and timerange as needed. The `--timerange` format is `YYYYMMDD-YYYYMMDD`; omit the end date to download through today.
 
 ## Run a Backtest
 
