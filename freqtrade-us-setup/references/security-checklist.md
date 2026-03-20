@@ -182,7 +182,7 @@ Never jump to $1000 trades without weeks of testing.
 5. **Update .env** with new key
 6. **Restart Freqtrade** to use new key
 
-Kraken typically reverses fraudulent trades if caught early.
+Contact Kraken support immediately. Outcomes vary — there are no guarantees of recovery. Freqtrade and exchanges are used at your own risk; this is experimental software.
 
 ### If You See Unauthorized Activity
 

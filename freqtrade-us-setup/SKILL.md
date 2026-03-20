@@ -57,9 +57,9 @@ FREQTRADE__API_SERVER__JWT__SECRET__KEY=your-jwt-secret
 FREQTRADE__API_SERVER__WS__TOKEN=your-ws-token
 
 # Telegram (optional — leave empty if not using)
-# Note: If running multiple bots, Telegram tokens may need to be hardcoded
-# in each bot's config.json rather than via env vars. Multi-bot Telegram
-# setup via env is unverified — hardcode if you hit issues.
+# Note: Multi-bot Telegram setup via env vars is unverified.
+# If you hit issues, consult Freqtrade docs for your specific setup.
+# Never hardcode sensitive tokens in files that could be committed to git.
 FREQTRADE__TELEGRAM__TOKEN=
 FREQTRADE__TELEGRAM__CHAT_ID=
 ```
@@ -113,5 +113,7 @@ docker-compose up
 - **security-checklist.md** → API key management, fund protection, common mistakes
 
 ---
+
+**Disclaimer:** Freqtrade is open-source, experimental software. Trading involves financial risk. This guide is provided as-is with no guarantees. Use at your own risk.
 
 **Questions?** See references/ or check Freqtrade's official docs at https://www.freqtrade.io
