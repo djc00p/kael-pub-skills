@@ -1,12 +1,12 @@
 ---
 name: freqtrade-strategy-dev
 description: "Develop, iterate, and improve Freqtrade trading strategies. Use when writing a new strategy, improving an existing one, analyzing why a strategy is losing, or understanding which indicators to use. Covers strategy anatomy, key configuration parameters, proven entry/exit patterns, and the iteration workflow. Trigger phrases: write freqtrade strategy, improve strategy, why is my strategy losing, freqtrade indicators, strategy not profitable, freqtrade entry conditions."
-metadata: {"clawdbot":{"emoji":"🧠","requires":{"bins":["docker"]},"os":["linux","darwin","win32"]}}
+metadata: {"clawdbot":{"emoji":"🧠","requires":{"bins":["docker","docker-compose"]},"os":["linux","darwin","win32"]}}
 ---
 
 # Freqtrade Strategy Development
 
-Build profitable trading strategies with disciplined iteration, tight risk management, and data-driven entry/exit rules.
+Build profitable trading strategies with disciplined iteration, tight risk management, and data-driven entry/exit rules. Assumes Freqtrade is running via Docker (`docker-compose`).
 
 ## Strategy Anatomy
 
