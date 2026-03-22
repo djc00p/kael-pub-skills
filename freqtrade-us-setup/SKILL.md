@@ -1,6 +1,6 @@
 ---
 name: freqtrade-us-setup
-description: "Complete setup guide for running Freqtrade legally in the United States. Use when setting up Freqtrade for the first time, choosing a US-compatible exchange, configuring API keys securely, or troubleshooting US-specific exchange issues. Covers Kraken setup, Docker configuration, API key security, and dry-run testing. Trigger phrases: freqtrade US, US exchanges freqtrade, freqtrade legal US, freqtrade Kraken setup, freqtrade docker config."
+description: "Complete setup guide for running Freqtrade (cryptocurrency trading bot) legally in the United States. Use when setting up Freqtrade for the first time, choosing a US-compatible exchange, configuring API keys securely, or troubleshooting US-specific exchange issues. Covers Kraken setup, Docker configuration, API key security, and dry-run testing. Trigger phrases: freqtrade US, US exchanges freqtrade, freqtrade legal US, freqtrade Kraken setup, freqtrade docker config."
 metadata: {"clawdbot":{"emoji":"📈","requires":{"bins":["docker"]},"os":["linux","darwin","win32"]}}
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: freqtrade-tools
-description: "Shell aliases and helper commands for Freqtrade that speed up common tasks. Use when setting up Freqtrade shortcuts, downloading market data quickly, running backtests from the command line, or controlling the bot. Covers bash/zsh (Linux/macOS) and PowerShell/Command Prompt (Windows). Trigger phrases: freqtrade aliases, freqtrade shortcuts, ftdata, ftback, freqtrade commands, freqtrade windows."
+description: "Shell aliases and helper commands for Freqtrade (cryptocurrency trading bot) that speed up common tasks. Use when setting up Freqtrade shortcuts, downloading market data quickly, running backtests from the command line, or controlling the bot. Covers bash/zsh (Linux/macOS) and PowerShell/Command Prompt (Windows). Trigger phrases: freqtrade aliases, freqtrade shortcuts, ftdata, ftback, freqtrade commands, freqtrade windows."
 metadata: {"clawdbot":{"emoji":"⚡","requires":{"bins":["docker","docker-compose"]},"os":["linux","darwin","win32"]}}
 ---
 

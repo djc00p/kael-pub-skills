@@ -1,6 +1,6 @@
 ---
 name: freqtrade-backtester
-description: "Run Freqtrade backtests, interpret results, and iterate on strategies. Use when downloading historical data, running a backtest, reading backtest output, comparing strategies, or deciding whether a strategy is ready for live trading. Trigger phrases: backtest freqtrade, run backtest, download freqtrade data, compare strategies, is my strategy good, freqtrade results."
+description: "Run Freqtrade backtests for cryptocurrency trading strategies, interpret results, and iterate. Use when downloading historical data, running a backtest, reading backtest output, comparing strategies, or deciding whether a strategy is ready for live trading. Trigger phrases: backtest freqtrade, run backtest, download freqtrade data, compare strategies, is my strategy good, freqtrade results."
 metadata: {"clawdbot":{"emoji":"📊","requires":{"bins":["docker","docker-compose"]},"os":["linux","darwin","win32"]}}
 ---
 
