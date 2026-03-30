@@ -231,3 +231,4 @@ Problem appears
   ├─ Tempted to work around? → ROOT CAUSE GATE → fix the real issue
   └─ Intermittent? → CHECK logs + external deps + timing
 ```
+

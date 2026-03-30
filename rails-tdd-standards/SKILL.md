@@ -188,3 +188,4 @@ bundle exec rspec --format documentation
 
 - `references/factory-patterns.md` — advanced FactoryBot patterns
 - `references/system-specs.md` — Capybara / browser testing setup
+

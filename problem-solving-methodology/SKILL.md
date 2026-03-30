@@ -151,3 +151,4 @@ Write lessons to `.learnings/` if reusable.
 - **Execute**: Confirm before risky operations
 - **Verify**: Ask user to check on their end
 - **Throughout**: Say "I'm not sure yet" over false confidence
+

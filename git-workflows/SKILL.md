@@ -531,3 +531,4 @@ git push origin --delete v1.2.0  # Remote
 - Enable `rerere` globally. It remembers conflict resolutions so you never solve the same conflict twice.
 - `git stash push -m "description"` is much better than bare `git stash`. You'll thank yourself when you have 5 stashes.
 - `git log -S "string"` (pickaxe) is the fastest way to find when a function or variable was added or removed.
+
