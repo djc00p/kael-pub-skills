@@ -117,11 +117,22 @@ def append_op(path: str, record: dict):
         f.write(json.dumps(record) + "\n")
 
 
-def create_entity(type_name: str, properties: dict, graph_path: str, entity_id: str = None) -> dict:
-    """Create a new entity."""
+def create_entity(type_name: str, properties: dict, graph_path: str, entity_id: str = None, upsert: bool = False) -> dict:
+    """Create a new entity. Raises SystemExit if ID already exists unless upsert=True."""
     entity_id = entity_id or generate_id(type_name)
     timestamp = datetime.now(timezone.utc).isoformat()
-    
+
+    # Duplicate guard
+    existing_entities, _ = load_graph(graph_path)
+    if entity_id in existing_entities:
+        if upsert:
+            # Merge props into existing and write an update op
+            return update_entity(entity_id, properties, graph_path)
+        else:
+            raise SystemExit(
+                f"Entity '{entity_id}' already exists. Use --upsert to update it, or choose a different ID."
+            )
+
     entity = {
         "id": entity_id,
         "type": type_name,
@@ -129,10 +140,10 @@ def create_entity(type_name: str, properties: dict, graph_path: str, entity_id: 
         "created": timestamp,
         "updated": timestamp
     }
-    
+
     record = {"op": "create", "entity": entity, "timestamp": timestamp}
     append_op(graph_path, record)
-    
+
     return entity
 
 
@@ -429,6 +440,7 @@ def main():
     create_p.add_argument("--type", "-t", required=True, help="Entity type")
     create_p.add_argument("--props", "-p", default="{}", help="Properties JSON")
     create_p.add_argument("--id", help="Entity ID (auto-generated if not provided)")
+    create_p.add_argument("--upsert", action="store_true", help="Update if entity already exists")
     create_p.add_argument("--graph", "-g", default=DEFAULT_GRAPH_PATH)
     
     # Get
@@ -504,7 +516,7 @@ def main():
     
     if args.command == "create":
         props = json.loads(args.props)
-        entity = create_entity(args.type, props, args.graph, args.id)
+        entity = create_entity(args.type, props, args.graph, args.id, upsert=getattr(args, "upsert", False))
         print(json.dumps(entity, indent=2))
     
     elif args.command == "get":
