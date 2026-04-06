@@ -70,59 +70,9 @@ Tell the reviewer how to verify the changes work:
 - **Be honest about Impact** — reviewers need to know what to watch for
 - **Never merge** — PRs are for review; the author or maintainer merges
 
-## Example (filled)
-
-```markdown
-# 📦 Pull Request
-
-## Summary
-Closes #44
-Adds the driver availability system for ride booking. When a patron requests a ride,
-the system checks which approved drivers are available based on schedule windows,
-existing ride conflicts, and drive-time buffers.
-
----
-
-## ✅ Checklist Before Merging
-### Code
-- [x] Code runs locally without errors
-- [x] My code has no unused or commented-out sections
-- [x] I have reviewed my code
-- [x] I have added comments to any complex logic
-
-### Testing
-- [x] All tests are passing
-- [x] I have added or updated tests as needed
-
----
-
-## 🧪 Type of Change
-- [x] 🚀 New feature
-
----
-
-## 🛠️ Implements / Fixes
-Implements driver availability checking for Phase 1 ride scheduling.
-
----
-
-## 📋 Description of Changes
-- Added `role` column to `user_rides` (driver/patron, default: patron)
-- Created `driver_schedules` table for recurring and one-off availability windows
-- Added `DriverSchedule` model with `covers_time?` method
-- Added `GeoapifyDriveTimeService` for real drive time via Geoapify Route Matrix API
-- Added `DriverAvailabilityService` — 4-step availability check
-- Updated seeds and factories to include `role`
-
----
-
-## 💣 Impact
-- [x] This PR is safe (does not break existing functionality)
-
----
-
-## 🧪 Testing Notes
-- [x] All/most tests changed
-
-75 new tests across 3 spec files. Final suite: 729 examples, 0 failures.
+**Memory logging (optional):** After creating the PR, you can log a summary:
+```bash
+ont create --type Learning --id learn_pr-$(date +%s) --props '{"name":"pr-opened","status":"complete","goal":"PR #<number> opened: <one-line summary>"}'
 ```
+
+If the PR applied a previously captured learning (from `.learnings/`), consider linking it in “Implements / Fixes” with a reference like `See ERR-20260324-499`.

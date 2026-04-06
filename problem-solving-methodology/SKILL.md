@@ -132,6 +132,11 @@ Show evidence, don't say "应该好了".
 
 Write lessons to `.learnings/` if reusable.
 
+**Memory Hook:** Immediately after review, log a summary via ontology:
+```bash
+ont create --type Learning --id learn_problem-$(date +%s) --props '{"name":"problem-postmortem","status":"complete","goal":"[Problem Name] — Root cause: [one sentence] — Fix: [one sentence] — Lessons: [rule]"}'
+```
+
 ## Anti-patterns
 
 | Pattern | What it looks like | Fix |
@@ -151,3 +156,4 @@ Write lessons to `.learnings/` if reusable.
 - **Execute**: Confirm before risky operations
 - **Verify**: Ask user to check on their end
 - **Throughout**: Say "I'm not sure yet" over false confidence
+

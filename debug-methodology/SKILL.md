@@ -112,6 +112,11 @@ After any fix, verify:
 □ Is the fix in the right layer? (not patching symptoms upstream)
 ```
 
+**Memory Hook:** Immediately after verification, log a concise post‑mortem:
+```bash
+ont create --type Learning --id learn_debug-$(date +%s) --props '{"name":"debug-postmortem","status":"complete","goal":"Fixed [symptom]. Root cause: [why]. Fix: [what]."}'
+```
+
 ## Anti-Patterns
 
 ### 🚨 Workaround Addiction (NEW — Most Common!)
@@ -231,3 +236,4 @@ Problem appears
   ├─ Tempted to work around? → ROOT CAUSE GATE → fix the real issue
   └─ Intermittent? → CHECK logs + external deps + timing
 ```
+

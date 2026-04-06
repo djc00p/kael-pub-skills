@@ -4,7 +4,7 @@ description: Tiered model selection and cost optimization for multi-agent AI wor
 metadata: {"clawdbot":{"emoji":"💰","requires":{"bins":[]},"os":["linux","darwin","win32"]}}
 ---
 
-# Agent Cost Strategy
+# Agent Cost Strategy v1.3.4
 
 Use the cheapest model that can reliably do the job. Most tasks don't need your most powerful model.
 
@@ -18,7 +18,7 @@ Use the cheapest model that can reliably do the job. Most tasks don't need your 
 
 ## Task → Tier Routing
 
-```
+```text
 Fix failing tests          → Fast/Cheap
 Write boilerplate          → Fast/Cheap
 Research / search          → Fast/Cheap
@@ -45,14 +45,34 @@ One-word and short conversational messages (hi, thanks, ok, sure, yes, no) shoul
 
 ## Cache Optimization
 
-Prompt caching cuts costs 50-90% on repeated context. See `references/cache-optimization.md` for patterns.
+Prompt caching cuts costs 50-90% on repeated context. Cache writes cost ~25% more but pay off after just 1-2 reuses. See `references/cache-optimization.md` for patterns and break-even math.
+
+## Batch API (Non-Urgent Tasks)
+
+For cron jobs, scheduled analysis, or anything that doesn't need an immediate response — use the Batch API (Anthropic/OpenAI both offer it). **50% discount** in exchange for async delivery (results within 24h). Never use real-time API for background work that can wait.
+
+## Sub-Agent Model Rule (Critical)
+
+**Always explicitly set the model when spawning sub-agents.** Never rely on defaults — the default inherits the parent session model (expensive mid-tier). One month of sub-agents defaulting to Sonnet = 96% of costs going to Sonnet when it should be split ~80/20 Haiku/Sonnet.
+
+```text
+sessions_spawn → always include model: "claude-haiku-4-5-20251001" (or equivalent fast-cheap)
+```
+
+Every sub-agent task that can be done by Haiku must use Haiku. No exceptions.
+
+## New Session / Machine Cold Start Cost
+
+When starting a fresh session (new machine, new session after `/new`), the cache is empty. The first few messages will write the entire context (skills, workspace files, memory) to cache at 1.25x the normal input rate. This is unavoidable but temporary — it pays off within 2-3 messages once the cache warms up.
+
+**Don't panic at the first few messages being expensive on a new machine.** The cache write cost is a one-time investment that makes every subsequent message ~90% cheaper.
 
 ## Signs You're Over-Spending
 
 - Running powerful models on tasks Fast/Cheap can handle
 - No caching on repeated system prompts
 - Heartbeat/cron jobs using the default (expensive) model
-- Spawning sub-agents without specifying a model tier
+- **Sub-agents spawned without explicit model = biggest cost leak**
 
 ## Session & Cache Management
 
@@ -61,17 +81,22 @@ Prompt caching cuts costs 50-90% on repeated context. See `references/cache-opti
 Anthropic's prompt cache builds from repeated context within a live session. When a session starts fresh, all context (system prompt, workspace files, skills) loads cold — typically 400-600k tokens at full cost. Once cached, subsequent messages cost ~10% of that.
 
 **The math:**
+
 - Cold session start: 600k tokens × full price = expensive
 - After cache warms up: 600k tokens × 10% cache price = ~90% cheaper per message
 - Deleting a session destroys the cache and forces a full cold reload next time
 
 **Rules:**
+
 - Let sessions run as long as possible
 - Only start a new session (`/new`) when context is genuinely full (>80%)
 - Never tell a user to delete conversations — it spikes costs
 - The longer a session runs, the cheaper each message gets
 
 **Delegation rule (keep main agent lean):**
+
 - Main agent (Sonnet/mid-tier) = conversational only: planning, coordination, reviewing results
 - Sub-agents (Haiku/fast-cheap) = all actual doing: file edits, research, builds, data tasks
 - Keeping the main agent conversational reduces its context growth and keeps cache hits high
+
+

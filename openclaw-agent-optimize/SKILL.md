@@ -121,14 +121,3 @@ After any approved optimization, verify:
 - Prefer short `SKILL.md` + `references/` for long runbooks.
 - If context bloat is the main complaint, pair this skill with `context-clean-up` (audit-only).
 
-## References
-
-- `references/optimization-playbook.md`
-- `references/model-selection.md`
-- `references/context-management.md`
-- `references/agent-orchestration.md`
-- `references/cron-optimization.md`
-- `references/heartbeat-optimization.md`
-- `references/memory-patterns.md`
-- `references/continuous-learning.md`
-- `references/safeguards.md`

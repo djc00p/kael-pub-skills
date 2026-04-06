@@ -92,5 +92,5 @@ Keep all versions: name files `MyStrategy_v1.py`, `MyStrategy_v2.py`, etc. Add c
 
 ## References
 
-- **[Indicators Guide](references/indicators-guide.md)** — Technical indicator formulas and interpretation
-- **[Iteration Workflow](references/iteration-workflow.md)** — Step-by-step walkthrough of strategy optimization
+- **`references/indicators-guide.md`** — Technical indicator formulas and interpretation
+- **`references/iteration-workflow.md`** — Step-by-step walkthrough of strategy optimization

@@ -95,5 +95,6 @@ Light: `bg-{color}-100` + `text-{color}-800` | Dark: `dark:bg-{color}-900` + `da
 
 ## References
 
-- [components.md](references/components.md) — Reusable badge, button, and card partials with usage examples.
-- [dark-mode-responsive.md](references/dark-mode-responsive.md) — Dark mode setup, responsive patterns, and animation utilities.
+- `references/components.md` — Reusable badge, button, and card partials with usage examples.
+- `references/dark-mode-responsive.md` — Dark mode setup, responsive patterns, and animation utilities.
+

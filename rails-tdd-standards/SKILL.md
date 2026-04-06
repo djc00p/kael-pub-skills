@@ -95,6 +95,11 @@ user = create(:user, :driver)
 user = create(:user)
 ```
 
+**Self‑improvement:** If you repeatedly encounter a specific factory misconfiguration, capture it as a learning:
+```bash
+ont create --type Learning --id learn_factory-pattern --props '{"name":"factorybot-roles-pattern","status":"active","goal":"FactoryBot pattern: always set required roles/traits explicitly to avoid RecordInvalid"}'
+```
+
 ## Spec Structure
 
 ```ruby
@@ -188,3 +193,4 @@ bundle exec rspec --format documentation
 
 - `references/factory-patterns.md` — advanced FactoryBot patterns
 - `references/system-specs.md` — Capybara / browser testing setup
+

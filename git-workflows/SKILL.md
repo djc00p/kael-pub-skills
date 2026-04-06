@@ -124,6 +124,11 @@ git bisect bad    # if this commit has the bug
 git bisect reset
 ```
 
+**Memory logging:** After identifying the bad commit, optionally log:
+```bash
+ont create --type Learning --id learn_bisect-$(date +%s) --props '{"name":"bisect-result","status":"active","goal":"Bisect found first bad commit: <hash> in repo <name>"}'
+```
+
 ### Automated bisect (with a test script)
 
 ```bash
@@ -522,6 +527,7 @@ git push origin --delete v1.2.0  # Remote
 
 ## Tips
 
+- If you repeatedly encounter the same conflict patterns, capture them as learnings using `ont create --type Learning` to build a personal knowledge base of resolutions.
 - `git rebase -i` is the single most useful advanced git command. Learn it first.
 - Never rebase commits that have been pushed to a shared branch. Rebase your local/feature work only.
 - `git reflog` is your safety net. If you lose commits, they're almost always recoverable within 90 days.
@@ -531,3 +537,4 @@ git push origin --delete v1.2.0  # Remote
 - Enable `rerere` globally. It remembers conflict resolutions so you never solve the same conflict twice.
 - `git stash push -m "description"` is much better than bare `git stash`. You'll thank yourself when you have 5 stashes.
 - `git log -S "string"` (pickaxe) is the fastest way to find when a function or variable was added or removed.
+
