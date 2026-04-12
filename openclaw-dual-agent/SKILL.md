@@ -1,7 +1,7 @@
 ---
 name: openclaw-dual-agent
 description: "Run two OpenClaw agents simultaneously — a paid Anthropic agent and a free agent using either OpenRouter or local Ollama models. Trigger phrases: multi-agent setup, add a second agent, free agent openclaw, run two agents, openrouter openclaw, ollama agent, local model openclaw, parallel agents, cost optimization agent."
-metadata: {"clawdbot": {"emoji": "🤖", "requires": {"bins": ["jq"]}, "env": ["ANTHROPIC_API_KEY", "OPENROUTER_API_KEY", "TELEGRAM_BOT_TOKEN"], "os": ["darwin", "linux", "win32"]}, "homepage": "https://clawhub.com/djc00p/openclaw-dual-agent"}
+metadata: {"clawdbot": {"emoji": "🤖", "requires": {"bins": ["jq"]}, "env": ["ANTHROPIC_API_KEY"], "os": ["darwin", "linux", "win32"]}, "homepage": "https://clawhub.com/djc00p/openclaw-dual-agent"}
 ---
 
 # Multi-Agent OpenClaw Setup
@@ -17,10 +17,10 @@ Run a paid Anthropic agent and free OpenRouter agent side by side with separate 
 
 2. **Authenticate agents:**
    ```bash
-   openclaw onboard --anthropic-api-key "$ANTHROPIC_API_KEY"
-   # For free agent: create auth-profiles.json in its agentDir with OpenRouter key
+   # Run interactively — avoids exposing keys in shell history
+   openclaw onboard
    ```
-   > ⚠️ Passing keys on the CLI can expose them in shell history. Run `history -d $(history 1)` after or use `openclaw onboard` interactively. Credential files (`auth-profiles.json`, `openclaw.json`) should be `chmod 600`.
+   > ⚠️ Never pass API keys directly on the CLI (e.g. `--anthropic-api-key ...`) — it exposes them in shell history. Always use `openclaw onboard` interactively. Credential files (`auth-profiles.json`, `openclaw.json`) should be `chmod 600`.
 
 3. **Configure** `openclaw.json` with two agents, separate bindings, and Telegram accounts.
 

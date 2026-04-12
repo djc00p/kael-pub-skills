@@ -1,60 +1,60 @@
 ---
 name: openclaw-memory-ontology-linker
-description: "Automatically connects Ollama memory search results to ontology entities (Projects, Tasks, People) by creating MemoryChunk entities and linking them via 'referenced_in'. Triggers during conversation when memory search is used and ontology entities are detected. Trigger phrases: 'link memory to ontology', 'connect memory', 'attach memory snippets', 'store memory in graph'."
-metadata: {"clawdbot":{"emoji":"🔗","requires":{"bins":["python3"]},"os":["linux","darwin","win32"]},"homepage":"https://clawhub.com/djc00p/openclaw-memory-ontology-linker"}
+description: "Manually links free-form memory snippets to ontology entities (Projects, Tasks, People) by creating MemoryChunk entities connected via 'referenced_in'. Use when you find a memory snippet worth attaching to a specific project or task, or during memory review to surface context. Trigger phrases: 'link memory to ontology', 'connect memory', 'attach memory snippets', 'what memory is linked to', 'show memory for project'."
+metadata: {"clawdbot":{"emoji":"🔗","requires":{"bins":["python3"]},"os":["linux","darwin","win32"]}}
 ---
 
 # Memory‑Ontology Linker
 
-Bridges free‑form semantic memory (Ollama) with the structured ontology graph.
+Links free-form memory snippets to structured ontology entities. Useful during memory review to attach relevant episodic/semantic context to active projects and tasks.
 
 ## Quick Start
 
-1. Ensure `ontology` and `openclaw-ollama-memory` skills are installed
-2. Place the shared ontology at `~/.openclaw/shared-ontology` and symlink each workspace's `memory/ontology` to it
-3. Add plugin config to your agent's `openclaw.json`:
-   ```json
-   {
-     "plugins": {
-       "entries": {
-         "memory-ontology-linker": {
-           "enabled": true,
-           "config": {
-             "autoLink": true,
-             "minScore": 0.5,
-             "maxResults": 3
-           }
-         }
-       }
-     }
-   }
-   ```
-4. Restart gateway
+**Link a memory snippet to an entity:**
+```bash
+python3 ~/.openclaw/workspace/skills/openclaw-memory-ontology-linker/scripts/link_memory_to_entity.py <entity_id> "snippet"
+```
+
+**View all memory linked to an entity:**
+```bash
+python3 ~/.openclaw/workspace/skills/openclaw-memory-ontology-linker/scripts/linked_memories.py <entity_id>
+```
+
+**Example:**
+```bash
+python3 ~/.openclaw/workspace/skills/openclaw-memory-ontology-linker/scripts/link_memory_to_entity.py proj_mypridri \
+  "Ratings PR #47 ready to merge — 860 tests passing"
+```
 
 ## Key Concepts
 
-- **MemoryChunk**: a snippet from semantic search, stored as an ontology entity
+- **MemoryChunk**: a snippet stored as an ontology entity, linked to a project/task
 - **referenced_in**: relation connecting a MemoryChunk to the entity it informs
-- **autoLink**: if true, the agent will batch-apply linking after memory search
+- **Manual workflow**: run the scripts intentionally when you find something worth persisting — not automatic
 
 ## Common Usage
 
-Manual linking (one‑off):
+**During memory review (heartbeat):**
+1. Read recent episodic files
+2. Find snippets relevant to active projects
+3. Run `link_memory_to_entity.py` to attach them
+4. Run `linked_memories.py` to verify and surface context next session
+
+**Check what's linked to an active project:**
 ```bash
-python3 scripts/link_memory_to_entity.py <entity_id> "snippet 1" "snippet 2"
+python3 ~/.openclaw/workspace/skills/openclaw-memory-ontology-linker/scripts/linked_memories.py proj_mypridri
 ```
 
-View linked memories:
-```bash
-python3 scripts/linked_memories.py <entity_id>
-```
+## When to Use
+
+- You find a key insight in episodic memory that should be attached to a project
+- You want to surface past decisions when returning to a task
+- Memory review turns up something worth preserving beyond the flat `.md` file
 
 ## References
-- `references/schema-additions.md` — required MemoryChunk type and referenced_in relation
-- `references/auto-linking-design.md` — how auto‑linking works and configuration details
+- `references/schema-additions.md` — MemoryChunk type and referenced_in relation definitions
+- `references/auto-linking-design.md` — workflow design notes
 
-## Common Mistakes to Avoid
-- Forgetting to symlink workspace `memory/ontology` to the shared location
-- Not adding the plugin entry to `openclaw.json`
-- Setting `minScore` too high (nothing links) or too low (spam)
-- Expecting instant linking in long conversations — it runs after memory search completes
+## Tracking
+This skill is on trial. Usage is tracked via `task_memory-ontology-linker-trial` in the ontology.
+Log each time the scripts produce useful output: `ont create --type Learning --id learn_mol-$(date +%s) --props '{"name":"memory-linker-used","status":"active","goal":"<what was linked and whether it was useful>"}'`
