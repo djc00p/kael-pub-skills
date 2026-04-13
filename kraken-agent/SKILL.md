@@ -13,12 +13,9 @@ The official AI-native CLI for trading crypto, stocks, forex, and derivatives on
 
 ## Install
 
-```bash
-curl --proto '=https' --tlsv1.2 -LsSf \
-  https://github.com/krakenfx/kraken-cli/releases/latest/download/kraken-cli-installer.sh | sh
-```
+See the [official install instructions](https://github.com/krakenfx/kraken-cli#installation) in the repo. Single binary, no runtime dependencies.
 
-Single binary, no runtime dependencies. Verify install:
+Verify install:
 
 ```bash
 kraken --version
