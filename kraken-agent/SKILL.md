@@ -18,28 +18,6 @@ curl --proto '=https' --tlsv1.2 -LsSf \
   https://github.com/krakenfx/kraken-cli/releases/latest/download/kraken-cli-installer.sh | sh
 ```
 
-> ⚠️ **Before running:** Review the installer script at the URL above, or use the verified binary approach below.
-
-**Preferred: Download and verify the signed binary**
-
-```bash
-# Install minisign if needed
-brew install minisign   # macOS
-# apt install minisign  # Linux
-
-# Download binary + signature for your platform (example: macOS Apple Silicon)
-curl -LO https://github.com/krakenfx/kraken-cli/releases/latest/download/kraken-cli-aarch64-apple-darwin.tar.gz
-curl -LO https://github.com/krakenfx/kraken-cli/releases/latest/download/kraken-cli-aarch64-apple-darwin.tar.gz.minisig
-
-# Verify signature against Kraken's public key
-minisign -Vm kraken-cli-aarch64-apple-darwin.tar.gz \
-  -P RWQJue8SwPzZBZO8Up5ppAUqm0wM/gK5yjnam+Dbf7KbY0utkiO+7XCd
-
-# Extract and install
-tar -xzf kraken-cli-aarch64-apple-darwin.tar.gz
-mv kraken /usr/local/bin/
-```
-
 Single binary, no runtime dependencies. Verify install:
 
 ```bash
