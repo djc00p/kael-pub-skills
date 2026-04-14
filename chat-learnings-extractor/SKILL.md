@@ -1,12 +1,12 @@
 ---
-name: conversation-learnings-extractor
-description: "Extract structured learnings (lessons, decisions, patterns, dead ends) from AI conversation exports using a local Ollama model or any OpenAI-compatible API. Pairs with chat-history-importer. Trigger phrases: extract learnings from conversations, analyze chat exports, mine conversation insights, extract lessons from chats."
+name: chat-learnings-extractor
+description: "Extract structured learnings (lessons, decisions, patterns, dead ends) from AI conversation exports using a local Ollama model or any OpenAI-compatible API. Pairs with chat-history-importer. Trigger phrases: extract learnings from conversations, analyze chat exports, mine conversation insights, extract lessons from chats, chat learnings extractor."
 metadata: {"clawdbot":{"emoji":"🧠","requires":{"bins":["python3","ollama"],"env":["OLLAMA_BASE_URL"],"note":"ollama is optional if using a remote OpenAI-compatible model instead"},"os":["linux","darwin","win32"]}}
 ---
 
 # Conversation Learnings Extractor
 
-Extract structured learnings (lessons, decisions, patterns, dead ends) from exported AI conversations using either a local Ollama model or any OpenAI-compatible API. Pairs with [chat-history-importer](https://clawhub.com/djc00p/chat-history-importer) skill to turn raw conversation logs into actionable insights.
+Extract structured learnings (lessons, decisions, patterns, dead ends) from exported AI conversations using either a local Ollama model or any OpenAI-compatible API. This skill is designed to work with exports from OpenAI and Anthropic, and pairs well with the [chat-history-importer](https://clawhub.ai/djc00p/chat-history-importer) skill for a complete conversation analysis workflow.
 
 ## Quick Start
 
