@@ -6,7 +6,7 @@ metadata: {"clawdbot":{"emoji":"🧠","requires":{"bins":["python3","ollama"],"e
 
 # Conversation Learnings Extractor
 
-Extract structured learnings (lessons, decisions, patterns, dead ends) from exported AI conversations using either a local Ollama model or any OpenAI-compatible API.
+Extract structured learnings (lessons, decisions, patterns, dead ends) from exported AI conversations using either a local Ollama model or any OpenAI-compatible API. Pairs with [chat-history-importer](https://clawhub.com/djc00p/chat-history-importer) skill to turn raw conversation logs into actionable insights.
 
 ## Quick Start
 
@@ -98,16 +98,20 @@ Results are appended to `memory/semantic/learnings-from-exports.md` with this st
 ```markdown
 ## Chat Title (YYYY-MM-DD)
 
-## Lessons Learned
+### Lessons Learned
+
 - [bullet points]
 
-## Decisions Made
+### Decisions Made
+
 - [bullet points]
 
-## Patterns Noticed
+### Patterns Noticed
+
 - [bullet points]
 
-## Dead Ends
+### Dead Ends
+
 - [bullet points]
 ```
 

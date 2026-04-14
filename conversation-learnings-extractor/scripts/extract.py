@@ -30,8 +30,8 @@ from pathlib import Path
 from datetime import datetime
 from typing import Generator, Optional, Dict, List
 
-# Import parsers from sibling skill
-parser_dir = Path(__file__).parent.parent.parent / "conversation-miner" / "scripts"
+# Import parsers bundled with this skill (from chat-history-importer)
+parser_dir = Path(__file__).parent
 sys.path.insert(0, str(parser_dir))
 from parse_openai import parse as parse_openai
 from parse_anthropic import parse as parse_anthropic
