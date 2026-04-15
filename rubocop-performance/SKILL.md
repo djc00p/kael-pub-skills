@@ -23,6 +23,14 @@ Performance:
 
 Run `bundle exec rubocop` to scan your codebase. Most violations can be autocorrected with `--auto-correct` or `--auto-correct-all`.
 
+**After any code review that identifies Performance violations, always close with:**
+```bash
+bundle exec rubocop --auto-correct-all
+# Review the diff before committing — confirm no unintended changes
+git diff
+```
+This catches all autocorrectable violations at once rather than fixing them one by one. For violations that require manual fixes (N+1 queries, load-order issues), note them explicitly as TODO items in the review response.
+
 ---
 
 ## Top Rails-Relevant Cops
