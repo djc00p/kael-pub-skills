@@ -5,6 +5,11 @@ Runs the read-only ClawHub security/drift audit, then syncs every published
 skill to its GitHub repo under ~/skills/github-repos/ (README preserved,
 LICENSE, SKILL.md, version tag, GitHub release), then verifies the result.
 
+Also checks published **code plugins** (npm packages with an
+`openclaw.plugin.json`). Plugins publish to ClawHub on their own schedule and
+create no GitHub tag or GitHub release, so the two surfaces drift silently —
+this catches that.
+
 Produces a delivery-ready summary at
 ~/.openclaw/workspace/reports/clawhub-fleet-review-summary.txt
 
@@ -13,6 +18,8 @@ Exit codes:
   1 = could not run
   2 = audit failed
   3 = sync failed
+  4 = skill repo verification failed
+  5 = plugin release drift
 """
 import contextlib
 import io
@@ -28,6 +35,7 @@ REPORTS = WORKSPACE / "reports"
 AUDIT = WORKSPACE / "skills/clawhub-fleet-audit/scripts/audit_fleet.py"
 SYNC = WORKSPACE / "scripts/sync_skills_to_github.py"
 VERIFY = WORKSPACE / "scripts/verify_skill_repos.py"
+PLUGIN_VERIFY = WORKSPACE / "scripts/verify_plugin_releases.py"
 JSON_OUT = REPORTS / "clawhub-fleet-audit.json"
 MD_OUT = REPORTS / "clawhub-fleet-audit.md"
 SUMMARY_OUT = REPORTS / "clawhub-fleet-review-summary.txt"
@@ -117,6 +125,24 @@ def main():
         verify_ok = False
         verify_lines = [f"verify script not found: {VERIFY}"]
 
+    # ---------- Step 4: plugin release check ----------
+    plugin_lines = []
+    plugin_ok = True
+    if PLUGIN_VERIFY.exists():
+        pp = run([sys.executable, str(PLUGIN_VERIFY)], timeout=900)
+        ptail = (pp.stdout or "").strip().splitlines()
+        pidx = 0
+        for i, line in enumerate(ptail):
+            if line.strip().startswith("CODE PLUGIN RELEASE CHECK"):
+                pidx = i
+                break
+        plugin_lines = ptail[pidx:] if pidx else ptail[-12:]
+        if pp.returncode != 0:
+            plugin_ok = False
+    else:
+        plugin_ok = False
+        plugin_lines = [f"plugin verify script not found: {PLUGIN_VERIFY}"]
+
     # ---------- assemble ----------
     parts = [base, "\n## GitHub repo sync\n"]
     if sync_lines:
@@ -131,6 +157,14 @@ def main():
     parts.append("\n**READMEs are preserved** — an existing README.md is never "
                  "overwritten by a sync. The generated template is only used to "
                  "bootstrap a brand-new repo.\n")
+    parts.append("\n## Code plugin releases\n")
+    parts.append("Plugins publish to ClawHub on their own schedule and create no "
+                 "GitHub tag or release. This check compares the ClawHub version, "
+                 "the local git tag, the GitHub release, and the source commit.\n")
+    if plugin_lines:
+        parts.append("```")
+        parts.extend(plugin_lines)
+        parts.append("```")
 
     text = "\n".join(parts)
     SUMMARY_OUT.write_text(text, encoding="utf-8")
@@ -139,7 +173,9 @@ def main():
     if not sync_ok:
         return 3
     if not verify_ok:
-        return 3
+        return 4
+    if not plugin_ok:
+        return 5
     return 0
 
 
